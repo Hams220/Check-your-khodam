@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check Khodam</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             background: url('https://i.ibb.co.com/CBzrsPM/images-3.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
+            font-family: 'Nunito', sans-serif;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -48,6 +52,31 @@
         #loading.visible {
             display: block;
         }
+
+        .share-btn {
+            margin-top: 20px;
+        }
+
+        .donate-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .donate-btn .bi {
+            margin-right: 10px;
+        }
+        .img-qr{
+          border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -66,24 +95,37 @@
             </div>
         </div>
         <div id="result" class="mt-4"></div>
+        <button id="shareBtn" class="btn btn-secondary share-btn d-none">Share</button>
+        <br/>
+        <small>Khodam by : @Hams1773</small>
     </div>
+
+    <button class="donate-btn" id="donateBtn">
+        <i class="bi bi-qr-code"></i> Donate
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script>
         document.getElementById('khodamForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('name').value;
             const resultDiv = document.getElementById('result');
             const loadingDiv = document.getElementById('loading');
+            const shareBtn = document.getElementById('shareBtn');
             
             if(name) {
                 loadingDiv.classList.add('visible');
                 resultDiv.classList.remove('visible');
+                shareBtn.classList.add('d-none');
                 
                 // Simulate a delay for loading
                 setTimeout(() => {
                     const khodam = checkKhodam(name);
-                    resultDiv.innerHTML = `<h3>Khodam untuk nama "${name}":</h3><h5>${khodam}</h5>`;
+                    const galauMessage = getRandomGalauMessage();
+                    resultDiv.innerHTML = `<h3>Khodam untuk nama "${name}":</h3><p>${khodam}</p><p>${galauMessage}</p>`;
                     loadingDiv.classList.remove('visible');
                     resultDiv.classList.add('visible');
+                    shareBtn.classList.remove('d-none');
                 }, 2000); // Simulasi delay 2 detik
             } else {
                 resultDiv.innerHTML = `<p class="text-danger">Nama tidak boleh kosong!</p>`;
@@ -93,15 +135,64 @@
 
         function checkKhodam(name) {
             const khodams = [
-                'Rawa Rontek', 'Sapi Qurban', 'Ular Depresi', 'Sapi Uncle Motoo', 
-                'Kuntilanak', 'Harimau Putih', 'Ular Naga', 'Jin Arab', 'Gendruwo',
-                'Buto Ijo', 'Nyai Roro Kidul', 'Jenglot', 'Pocong', 'Wewe Gombel', 
-                'Genderuwo', 'Banaspati', 'Tuyul', 'Kuyang', 'Demit', 'Siluman Harimau',
-                'Siluman Ular', 'Nyi Blorong', 'Eyang Semar', 'Eyang Panji', 'Eyang Sabdo Palon'
+                'Kuntilanak Pelakor', 'Genderewo Sleepy', 'Pocong Ngebut', 'Tuyul Mager', 
+                'Buto Ijo Pusing', 'Nyai Roro Kidul Kedinginan', 'Jenglot Kepanasan', 'Wewe Gombel Bingung', 
+                'Demit Dilema', 'Siluman Harimau Kesepian', 'Siluman Ular Galau', 'Nyi Blorong Baper',
+                'Miya patah hati', 'Kadita ngelem', 'Banteng merah'
             ];
             const index = Math.floor(Math.random() * khodams.length);
             return khodams[index];
         }
+
+        function getRandomGalauMessage() {
+            const messages = [
+                'Dalam skala 1 sampai 10, kamu adalah 9 dan aku adalah 1 yang kamu butuhkan🙂',
+                'Tau gak? Kamu itu manis lo, tapi jangan dingin dong. Nanti ketukar sama sop buah 😭',
+                'Aku masih belum bisa melupakanmu sayang, karena aku baru ingat kalau kamu belum bayar utang🤢',
+                'Jangankan memilihmu atau dia, milih pop ice coklat atau avocado aja aku masih bingung 😕 ',
+                'Percuma punya khodam, tapi selalu feeling lonely 😞',
+                'Mungkin aku hanya butuh waktu untuk memilih rasa po ice yang tepat 💔',
+                'Saat kamu tersenyum, aku juga tersenyum. Tapi ketika kamu sedih aku ketawa 😭',
+                'Kadang di atas kadang di bawah, kadang di luar kadang di dalam 😔',
+                'Sebenarnya aku kuat, tapi aku rapuh cuman gara gara lupa punya utang 😢',
+                'Terkadang, kebahagiaan hanya sebatas punya duit 1 Milyar 😞',
+                'Bilangin ke khodam kamu, jagain kamu itu berat, biar aku aja yang jagain 😭',
+                'Jangan bilang "semua akan baik-baik saja", karena kadang ada khodam rawa rontek yang siap gentayangin kamu 😔',
+                'Kamu takut? Jangan check khodam, sinu crt 😢'
+            ];
+            const index = Math.floor(Math.random() * messages.length);
+            return messages[index];
+        }
+
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            const resultDiv = document.getElementById('result').innerText;
+           
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Check Khodam Result',
+                    text: resultDiv,
+                    url: window.location.href
+                }).then(() => {
+                    console.log('Successful share');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                });
+            } else {
+                alert('Web Share API not supported in your browser.');
+            }
+        });
+
+        document.getElementById('donateBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Aaa kasian aaa',
+                text: 'Scan Qr ini di gopay, atau khodam akan mencekik mu',
+                imageUrl: 'https://i.ibb.co.com/WFxDKSQ/IMG-20240624-WA0025-1.jpg', // Ganti dengan URL gambar QR code Anda
+                imageWidth: 200,
+                imageAlt: 'QR code',
+                imageBorderRadius: '10px',
+                confirmButtonText: 'Close'
+            });
+        });
     </script>
 </body>
 </html>
